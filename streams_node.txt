@@ -1,0 +1,29 @@
+--- ENTENDENDO STREAMS NO NODE ---
+
+1° Streams nada mais são que transmissão de informações de um computador para outro
+
+2° Em apps como Netflix, Youtube, Spotify usa-se o conceito de streaming
+
+3° Um conjunto de dados são transportados e quando chegam ao destino final, eles são montados e vão gerando informações que o sistema já começa a utilizar, mesmo que não tenha todos os dados por completo de um determinado arquivo
+
+4° Node permite ler informações que ainda não se juntaram por completo para formar o resultado final
+
+-- Exemplo sem a utilização de streaming:
+
+=> Um usuário importa um conjunto de clientes via CSV (Excel) para o servidor WEB
+
+=> Supondo que este arquivo tenha 1gb de tamanho e que o usuário esteja fazendo upload em 10mb/s, o Node.js demoraria 100 segundos para fazer o upload para somente então inserir os registros do CSV no banco de dados
+
+-- Exemplo com a utilização de streaming:
+
+=> Enquanto o usuário faz o upload do arquivo CSV com os registros dos clientes, o Node.js vai lendo os registros e armazenando no banco de dados
+
+=> Então, ao invés de esperar 100 segundos para o Node ler o arquivo, ele irá ler e ao mesmo tempo gravar
+
+Readable Streams: Transmissões de leitura
+Writable Streams: Transmissões de escrita
+
+--- CRIANDO STREAM DE LEITURA ---
+
+Node permite criar streams de leitura e escrita
+Exemplo no arquivo fundamentals.js dentro da pasta streams
