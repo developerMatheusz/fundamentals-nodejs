@@ -1,32 +1,40 @@
 import http from "node:http";
+import { json } from "./middlewares/json.js";
+import { routes } from "./routes.js";
 
-const users = [];
+// 3 formas de enviar requisições para o back-end:
+// Query parameters: URL Stateful => Filtro de buscas, paginação, não obrigatórios
 
-const server = http.createServer((request, response) => {
+// Router parameters: Identificação de recursos
 
-    const { method, url } = request;
-    
-    if (method === "GET" && url === "/users") {
+// Request body: Envio de informações de um formulário
 
-        return response
-            .setHeader("Content-type", "application/json")
-            .end(JSON.stringify(users));
+//Exemplo query parameter => http://localhost:3333/users?userId=1&name=Daniel
 
+//Exemplo router parameter => http://localhost:3333/users/1
+
+//Exemplo request body => Corpo da página
+
+const server = http.createServer(async (req, res) => {
+
+    const { method, url } = req;
+
+    await json(req, res);
+
+    const route = routes.find(route => {
+        return route.method === method && route.path.test(url);
+    });
+
+    if (route) {
+
+        const routeParams = req.url.match(route.path);
+        req.params = { ...routeParams.groups }
+
+        return route.handler(req, res);
+        
     }
 
-    if (method === "POST" && url === "/users") {
-
-        users.push({
-            id: 1, 
-            name: "João Birimbinha", 
-            email: "jao555@hotmail.com"
-        });
-
-        return response.writeHead(201).end();
-
-    }
-
-    return response.writeHead(404).end();
+    return res.writeHead(404).end();
 
 });
 

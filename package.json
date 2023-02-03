@@ -1,13 +1,16 @@
 {
-  "name": "01-fundamentos-nodejs",
+  "name": "fundamentals-nodejs",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fundamentos do interpretador de JavaScript NodeJS",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch src/server.js"
+    "dev": "node src/server.js"
   },
   "keywords": [],
   "author": "Matheus Zanela",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  }
 }
