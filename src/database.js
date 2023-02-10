@@ -4,7 +4,6 @@ const databasePath = new URL("../db.json", import.meta.url);
 
 export class Database {
 
-    //Torna o atributo database privado
     #database = {};
 
     constructor() {
@@ -18,16 +17,26 @@ export class Database {
             });
     }
 
-    //Torna o método persist privado
     #persist() {
 
         fs.writeFile(databasePath, JSON.stringify(this.#database));
 
     }
 
-    select(table) {
-        const data = this.#database[table] ?? [];
+    select(table, search) {
+
+        let data = this.#database[table] ?? [];
+
+        if (search) {
+            data = data.filter(row => {
+                return Object.entries(search).some(([key, value]) => {
+                    return row[key].includes(value);
+                });
+            });
+        }
+
         return data;
+
     }
 
     insert(table, data) {
@@ -61,8 +70,6 @@ export class Database {
         const rowIndex = this.#database[table]
             .findIndex(row => row.id === id);
 
-        //Caso não encontre o id, é retornado -1.
-        //Caso encontre o id, é removido 1 registro do índice encontrado.
         if (rowIndex > -1) {
             this.#database[table].splice(rowIndex, 1);
             this.#persist();

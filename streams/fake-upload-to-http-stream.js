@@ -22,7 +22,6 @@ class OneToHundredStream extends Readable {
 
 }
 
-//Requisição falsa para o servidor de stream do NodeJS
 fetch("http://localhost:3334", {
     method: "POST", 
     body: new OneToHundredStream()

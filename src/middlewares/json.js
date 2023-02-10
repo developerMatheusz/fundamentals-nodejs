@@ -1,7 +1,3 @@
-//Middleware é um interceptador de requisições enviadas para o servidor Web.
-
-//Middlewares sempre recebem como parâmetro uma requisição e resposta.
-
 export async function json(req, res) {
 
     const buffers = [];

@@ -1,7 +1,5 @@
-import { Readable, Writable, Transform, Duplex } from "node:stream";
+import { Readable, Writable, Transform } from "node:stream";
 
-//Streaming Read / Write / Transform e Duplex
-//Streaming Duplex possui características de Read / Write e Transform
 class OneToHundredStream extends Readable {
 
     index = 1;
@@ -23,7 +21,6 @@ class OneToHundredStream extends Readable {
 
 }
 
-//chunk são pedaços de dados que são lidos e escritos durante uma stream de forma assíncrona
 class InverseNumberStream extends Transform {
 
     _transform(chunk, encoding, callback) {
@@ -47,8 +44,6 @@ class MultiplyByTenStream extends Writable {
 
 }
 
-
-//Método pipe encaminha dados provindos de uma stream para outra
 new OneToHundredStream()
     .pipe(new InverseNumberStream())
     .pipe(new MultiplyByTenStream());

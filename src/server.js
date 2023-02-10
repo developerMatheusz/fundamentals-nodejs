@@ -1,19 +1,7 @@
 import http from "node:http";
 import { json } from "./middlewares/json.js";
 import { routes } from "./routes.js";
-
-// 3 formas de enviar requisições para o back-end:
-// Query parameters: URL Stateful => Filtro de buscas, paginação, não obrigatórios
-
-// Router parameters: Identificação de recursos
-
-// Request body: Envio de informações de um formulário
-
-//Exemplo query parameter => http://localhost:3333/users?userId=1&name=Daniel
-
-//Exemplo router parameter => http://localhost:3333/users/1
-
-//Exemplo request body => Corpo da página
+import { extractQueryParams } from "./utils/extract-query-params.js";
 
 const server = http.createServer(async (req, res) => {
 
@@ -28,7 +16,11 @@ const server = http.createServer(async (req, res) => {
     if (route) {
 
         const routeParams = req.url.match(route.path);
-        req.params = { ...routeParams.groups }
+
+        const { query, ...params } = routeParams.groups;
+
+        req.params = params;
+        req.query = query ? extractQueryParams(query) : {};
 
         return route.handler(req, res);
         
